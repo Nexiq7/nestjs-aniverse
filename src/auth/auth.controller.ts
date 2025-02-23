@@ -13,8 +13,8 @@ export class AuthController {
         const { _vercel_jwt } = await this.authService.login(req.user);
         res.cookie('_vercel_jwt', _vercel_jwt, {
             httpOnly: true,
-            secure: false,
-            sameSite: 'lax',
+            secure: true,
+            sameSite: 'none',
             expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
         }).send({ status: 'Login Successful' });
     }
