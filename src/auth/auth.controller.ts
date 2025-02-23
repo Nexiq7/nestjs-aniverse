@@ -10,8 +10,8 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@Request() req, @Response({ passthrough: true }) res): Promise<void> {
-        const { access_token } = await this.authService.login(req.user);
-        res.cookie('access_token', access_token, {
+        const { _vercel_jwt } = await this.authService.login(req.user);
+        res.cookie('_vercel_jwt', _vercel_jwt, {
             httpOnly: true,
             secure: false,
             sameSite: 'lax',
@@ -21,7 +21,7 @@ export class AuthController {
 
     @Get('logout')
     async logout(@Response() res): Promise<void> {
-        res.clearCookie('access_token').send({ status: 'Logged out' });
+        res.clearCookie('_vercel_jwt').send({ status: 'Logged out' });
     }
 
     @UseGuards(JwtAuthGuard)
